@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StretchMan - Authentication</title>
+    <link rel="stylesheet" href="lg2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Sign-In SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="auth-body">
+    <div class="auth-card">
+        <div class="auth-header">
+            <i class="fa-solid fa-cube logo-icon"></i>
+            <h2>StretchMan</h2>
+            <p>High Performance Dashboard</p>
+        </div>
+
+        <!-- Tab Toggle -->
+        <div class="auth-tabs">
+            <button id="tab-login" class="active" onclick="switchTab('login')">Log In</button>
+            <button id="tab-register" onclick="switchTab('register')">Register</button>
+        </div>
+
+        <!-- Form Section -->
+        <form id="auth-form" onsubmit="handleAuth(event)">
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="name@example.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" id="btn-submit" class="btn-primary">Log In</button>
+        </form>
+
+        <div class="divider">
+            <span>OR</span>
+        </div>
+
+        <!-- OAuth & Quick Register Actions Side-by-Side -->
+        <div class="oauth-container">
+            <!-- Google Login Button Container -->
+            <div id="g_id_onload"
+                data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                data-callback="handleGoogleLogin">
+            </div>
+            <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large"></div>
+            
+            <!-- Quick Register Toggle Button -->
+            <button type="button" class="btn-secondary-outline" onclick="switchTab('register')">
+                <i class="fa-solid fa-user-plus"></i> New Account
+            </button>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
