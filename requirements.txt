@@ -1,5 +1,9 @@
 fastapi
 uvicorn
-psycopg2-binary
 sqlalchemy
+psycopg2-binary
 pydantic
+pyjwt
+passlib[bcrypt]
+bcrypt==4.0.1
+requests
