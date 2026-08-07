@@ -3,172 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StretchMan Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+    <title>StretchMan - Sign In</title>
+    <link rel="stylesheet" href="lg2.css">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chart.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Sign-In SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-icon">
-                    <i class="fa-solid fa-cube"></i>
-                </div>
-                <div class="brand-text">
-                    <h2>StretchMan</h2>
-                    <span>High Performance</span>
-                </div>
+<body class="auth-page">
+    <div class="auth-wrapper">
+        <!-- Logo Header -->
+        <div class="brand-header">
+            <div class="lightning-icon">
+                <i class="fa-solid fa-bolt"></i>
             </div>
+            <h1>StretchMan</h1>
+            <p>Command your performance.</p>
+        </div>
 
-            <nav class="nav-menu">
-                <ul>
-                    <li class="active">
-                        <a href="#"><i class="fa-solid fa-border-all"></i> Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="login.html"><i class="fa-solid fa-users"></i> Recipients</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa-solid fa-gamepad"></i> Custom Games</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa-solid fa-dumbbell"></i> Stretching Routine</a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa-solid fa-user-gear"></i> Users Management</a>
-                    </li>
-                </ul>
-            </nav>
+        <!-- Auth Card -->
+        <div class="auth-card">
+            <form id="auth-form" onsubmit="handleAuth(event)">
+                <!-- Email Field -->
+                <div class="field-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" id="email" placeholder="agent@stretchman.com" required>
+                    </div>
+                </div>
 
-            <div class="sidebar-footer">
-                <button class="btn-start-session">
-                    <i class="fa-solid fa-play"></i> Start Session
+                <!-- Password Field -->
+                <div class="field-group">
+                    <div class="label-row">
+                        <label for="password">Password</label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <i class="fa-regular fa-eye-slash toggle-password" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="btn-submit" class="btn-signin">
+                    <span id="btn-text">Sign In</span> <i class="fa-solid fa-arrow-right"></i>
                 </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="auth-divider">
+                <span>OR</span>
             </div>
-        </aside>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Header -->
-            <header class="top-header">
-                <h1>Dashboard Overview</h1>
-                <div class="header-actions">
-                    <button class="btn-icon"><i class="fa-solid fa-gear"></i></button>
-                    <div class="user-avatar">
-                        <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
-                    </div>
+            <!-- Google Login Container -->
+            <div class="google-btn-container">
+                <div id="g_id_onload"
+                    data-client_id="300181200716-ql4asoqlr5c6kr07bevq8qnnbhjqfom1.apps.googleusercontent.com"
+                    data-callback="handleGoogleLogin">
                 </div>
-            </header>
+                <div class="g_id_signin" 
+                    data-type="standard" 
+                    data-theme="filled_black" 
+                    data-size="large" 
+                    data-width="100%">
+                </div>
+            </div>
 
-            <!-- Stat Cards Grid -->
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span>Total Recipients</span>
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-                    <div class="stat-value orange">7</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span>Custom Workouts</span>
-                        <i class="fa-solid fa-wrench"></i>
-                    </div>
-                    <div class="stat-value orange">3</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span>Daily Quests Completed</span>
-                        <i class="fa-regular fa-circle-check"></i>
-                    </div>
-                    <div class="stat-value orange">5</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-header">
-                        <span>Stretching Sessions</span>
-                        <i class="fa-solid fa-person-walking"></i>
-                    </div>
-                    <div class="stat-value orange">14</div>
-                </div>
-            </section>
-
-            <!-- Charts Section -->
-            <section class="charts-grid">
-                <div class="chart-card">
-                    <h3>TOTAL DAILY STRETCHING (LAST 7 DAYS)</h3>
-                    <div class="chart-container">
-                        <canvas id="stretchingChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-card">
-                    <h3>DAILY APP ENGAGEMENT (LAST 7 DAYS)</h3>
-                    <div class="chart-container">
-                        <canvas id="engagementChart"></canvas>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Recent Workouts Table -->
-            <section class="table-card">
-                <h2>Recent Recipient Workouts</h2>
-                <div class="table-responsive">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>NAME</th>
-                                <th>FULL NAME</th>
-                                <th>GAME ID</th>
-                                <th>WORKOUT TYPE</th>
-                                <th>DESCRIPTION</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="user-name">
-                                    <i class="fa-regular fa-user"></i> Alice
-                                </td>
-                                <td>Alice Johnson</td>
-                                <td class="text-muted">#GM-1042</td>
-                                <td>Back Stretch</td>
-                                <td class="text-muted">Lower lumbar release and mobility</td>
-                            </tr>
-                            <tr>
-                                <td class="user-name">
-                                    <i class="fa-regular fa-user"></i> Sarah
-                                </td>
-                                <td>Sarah Miller</td>
-                                <td class="text-muted">#GM-1088</td>
-                                <td>Neck Stretch</td>
-                                <td class="text-muted">Cervical spine alignment and tension release</td>
-                            </tr>
-                            <tr>
-                                <td class="user-name">
-                                    <i class="fa-regular fa-user"></i> Ben
-                                </td>
-                                <td>Ben Smith</td>
-                                <td class="text-muted">#GM-2011</td>
-                                <td>Hamstring Stretch</td>
-                                <td class="text-muted">Posterior chain flexibility enhancement</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-        </main>
+            <!-- Footer Switcher -->
+            <div class="auth-footer">
+                <span id="switch-text">Don't have an account?</span>
+                <a href="register.html" id="switch-link">Sign Up</a>
+            </div>
+        </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
