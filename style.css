@@ -8,6 +8,7 @@
     --accent-orange: #f59e0b;
     --accent-blue: #3b82f6;
     --btn-blue: #bac8ff;
+    --danger-red: #ef4444;
 }
 
 * {
@@ -147,6 +148,42 @@ body {
     display: flex;
     align-items: center;
     gap: 16px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--card-border);
+    padding: 6px 14px;
+    border-radius: 20px;
+}
+
+#user-display {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.btn-logout {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: var(--danger-red);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+    background-color: var(--danger-red);
+    color: #ffffff;
 }
 
 .btn-icon {

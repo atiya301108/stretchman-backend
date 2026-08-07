@@ -1,5 +1,6 @@
 const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
 
+// เช็กว่ามี Token อยู่แล้วหรือไม่ ถ้ามีให้พาเข้าหน้า Dashboard ทันที
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
     if (token) {
@@ -41,8 +42,12 @@ async function handleRegister(event) {
 
         if (response.ok && data.token) {
             alert("สมัครสมาชิกสำเร็จ!");
+            // บันทึกข้อมูลลง localStorage เพื่อนำไปแสดงในหน้า Dashboard
             localStorage.setItem("user_token", data.token);
             localStorage.setItem("user_email", email);
+            localStorage.setItem("user_name", fullName);
+            
+            // เปลี่ยนหน้าไปยัง Dashboard
             window.location.href = "index.html";
         } else {
             alert(data.detail || "การสมัครสมาชิกมีความผิดพลาด");
@@ -69,6 +74,9 @@ async function handleGoogleLogin(response) {
         if (res.ok && data.token) {
             localStorage.setItem("user_token", data.token);
             localStorage.setItem("user_email", data.email);
+            if (data.full_name) {
+                localStorage.setItem("user_name", data.full_name);
+            }
             window.location.href = "index.html";
         } else {
             alert("Google Sign-In ล้มเหลว");
