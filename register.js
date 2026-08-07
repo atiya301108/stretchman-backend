@@ -4,7 +4,7 @@ const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
     if (token) {
-        window.location.href = "index.html";
+        window.location.href = "dashboard.html";
     }
 });
 
@@ -48,7 +48,7 @@ async function handleRegister(event) {
             localStorage.setItem("user_name", fullName);
             
             // เปลี่ยนหน้าไปยัง Dashboard
-            window.location.href = "index.html";
+            window.location.href = "dashboard.html";
         } else {
             alert(data.detail || "การสมัครสมาชิกมีความผิดพลาด");
         }
@@ -77,7 +77,7 @@ async function handleGoogleLogin(response) {
             if (data.full_name) {
                 localStorage.setItem("user_name", data.full_name);
             }
-            window.location.href = "index.html";
+            window.location.href = "dashboard.html";
         } else {
             alert("Google Sign-In ล้มเหลว");
         }
