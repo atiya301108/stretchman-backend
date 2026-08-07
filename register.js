@@ -1,6 +1,5 @@
 const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
 
-// ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
     if (token) {
@@ -8,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// จัดการการกดปุ่ม Create Account
 async function handleRegister(event) {
     event.preventDefault();
     
@@ -18,15 +16,13 @@ async function handleRegister(event) {
     const confirmPassword = document.getElementById("confirm-password").value;
     const terms = document.getElementById("terms").checked;
 
-    // 1. ตรวจสอบรหัสผ่านตรงกันหรือไม่
     if (password !== confirmPassword) {
-        alert("Passwords do not match!");
+        alert("รหัสผ่านทั้งสองช่องไม่ตรงกัน!");
         return;
     }
 
-    // 2. ตรวจสอบการยินยอมเงื่อนไข
     if (!terms) {
-        alert("Please agree to the Terms of Service and Privacy Policy.");
+        alert("กรุณายอมรับเงื่อนไขการใช้งานก่อนสมัครสมาชิก");
         return;
     }
 
@@ -44,19 +40,20 @@ async function handleRegister(event) {
         const data = await response.json();
 
         if (response.ok && data.token) {
+            alert("สมัครสมาชิกสำเร็จ!");
             localStorage.setItem("user_token", data.token);
             localStorage.setItem("user_email", email);
             window.location.href = "index.html";
         } else {
-            alert(data.detail || data.message || "Registration failed!");
+            alert(data.detail || "การสมัครสมาชิกมีความผิดพลาด");
         }
     } catch (err) {
         console.error("Register error:", err);
-        alert("Cannot connect to server.");
+        alert("ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้");
     }
 }
 
-// Callback สำหรับ Google Sign-Up / Log-In
+// Google Sign-Up / Log-In Callback
 async function handleGoogleLogin(response) {
     const googleToken = response.credential;
 
@@ -74,7 +71,7 @@ async function handleGoogleLogin(response) {
             localStorage.setItem("user_email", data.email);
             window.location.href = "index.html";
         } else {
-            alert("Google Sign-In failed.");
+            alert("Google Sign-In ล้มเหลว");
         }
     } catch (err) {
         console.error("Google Auth error:", err);

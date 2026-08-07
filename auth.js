@@ -1,6 +1,6 @@
 const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
-let currentMode = "login"; // 'login' หรือ 'register'
 
+// ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่ ถ้ามี Token ให้ข้ามไปหน้า index.html
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
     if (token) {
@@ -24,35 +24,14 @@ function togglePasswordVisibility() {
     }
 }
 
-// ฟังก์ชันสลับโหมด Sign In / Sign Up
-function toggleAuthMode() {
-    currentMode = currentMode === "login" ? "register" : "login";
-    
-    const btnText = document.getElementById("btn-text");
-    const switchText = document.getElementById("switch-text");
-    const switchLink = document.getElementById("switch-link");
-
-    if (currentMode === "register") {
-        btnText.innerText = "Sign Up";
-        switchText.innerText = "Already have an account?";
-        switchLink.innerText = "Sign In";
-    } else {
-        btnText.innerText = "Sign In";
-        switchText.innerText = "Don't have an account?";
-        switchLink.innerText = "Sign Up";
-    }
-}
-
-// ฟังก์ชันส่งข้อมูล Login/Register ไป Backend
+// ฟังก์ชันส่งข้อมูล ล็อกอิน ไปยัง Backend
 async function handleAuth(event) {
     event.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const endpoint = currentMode === "login" ? "/api/login" : "/api/register";
-
     try {
-        const response = await fetch(`${RENDER_BACKEND_URL}${endpoint}`, {
+        const response = await fetch(`${RENDER_BACKEND_URL}/api/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email, password })
@@ -65,7 +44,8 @@ async function handleAuth(event) {
             localStorage.setItem("user_email", email);
             window.location.href = "index.html";
         } else {
-            alert(data.detail || data.message || "Authentication failed!");
+            // เด้ง Alert ข้อความแจ้งเตือนจาก Backend (เช่น ไม่พบบัญชีนี้ในระบบ กรุณาไปสมัครสมาชิกก่อน)
+            alert(data.detail || data.message || "Login failed!");
         }
     } catch (err) {
         console.error("Auth error:", err);
@@ -91,9 +71,10 @@ async function handleGoogleLogin(response) {
             localStorage.setItem("user_email", data.email);
             window.location.href = "index.html";
         } else {
-            alert("Google login failed.");
+            alert(data.detail || "Google login failed.");
         }
     } catch (err) {
         console.error("Google Auth error:", err);
+        alert("Cannot connect to Google Auth server.");
     }
 }
