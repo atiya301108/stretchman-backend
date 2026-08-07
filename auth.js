@@ -1,24 +1,49 @@
-const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com"; // URL บน Render ของคุณ
-let currentMode = "login";
+const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
+let currentMode = "login"; // 'login' หรือ 'register'
 
-// 1. ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่ (จดจำการเข้าสู่ระบบ)
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
     if (token) {
-        // หากมี Token อยู่แล้ว ให้เปลี่ยนไปหน้า Dashboard
         window.location.href = "index.html";
     }
 });
 
-// สลับโหมด ล็อกอิน / สมัครสมาชิก
-function switchTab(mode) {
-    currentMode = mode;
-    document.getElementById("tab-login").classList.toggle("active", mode === "login");
-    document.getElementById("tab-register").classList.toggle("active", mode === "register");
-    document.getElementById("btn-submit").innerText = mode === "login" ? "Log In" : "Create Account";
+// ฟังก์ชันสลับการมองเห็นรหัสผ่าน (ซ่อน/แสดง)
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const toggleIcon = document.getElementById("togglePassword");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+    } else {
+        passwordInput.type = "password";
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+    }
 }
 
-// 2. จัดการส่งข้อมูล Login / Register
+// ฟังก์ชันสลับโหมด Sign In / Sign Up
+function toggleAuthMode() {
+    currentMode = currentMode === "login" ? "register" : "login";
+    
+    const btnText = document.getElementById("btn-text");
+    const switchText = document.getElementById("switch-text");
+    const switchLink = document.getElementById("switch-link");
+
+    if (currentMode === "register") {
+        btnText.innerText = "Sign Up";
+        switchText.innerText = "Already have an account?";
+        switchLink.innerText = "Sign In";
+    } else {
+        btnText.innerText = "Sign In";
+        switchText.innerText = "Don't have an account?";
+        switchLink.innerText = "Sign Up";
+    }
+}
+
+// ฟังก์ชันส่งข้อมูล Login/Register ไป Backend
 async function handleAuth(event) {
     event.preventDefault();
     const email = document.getElementById("email").value;
@@ -36,12 +61,11 @@ async function handleAuth(event) {
         const data = await response.json();
 
         if (response.ok && data.token) {
-            // บันทึก Token ลงใน Browser เพื่อจดจำการเข้าสู่ระบบ
             localStorage.setItem("user_token", data.token);
             localStorage.setItem("user_email", email);
             window.location.href = "index.html";
         } else {
-            alert(data.message || "Authentication failed!");
+            alert(data.detail || data.message || "Authentication failed!");
         }
     } catch (err) {
         console.error("Auth error:", err);
@@ -49,7 +73,7 @@ async function handleAuth(event) {
     }
 }
 
-// 3. จัดการ Callback จาก Google Sign-In
+// Callback จาก Google Sign-In
 async function handleGoogleLogin(response) {
     const googleToken = response.credential;
 

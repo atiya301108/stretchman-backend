@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StretchMan - Create Account</title>
+    <link rel="stylesheet" href="lg2.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Sign-In SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body class="register-body">
+    <div class="register-wrapper">
+        <!-- Logo Header -->
+        <div class="brand-header">
+            <div class="lightning-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h1>StretchMan</h1>
+            <p>Initialize your high-performance profile.</p>
+        </div>
+
+        <!-- Create Account Card -->
+        <div class="register-card">
+            <h2>Create Account</h2>
+
+            <form id="register-form" onsubmit="handleRegister(event)">
+                <!-- Full Name -->
+                <div class="reg-field-group">
+                    <label for="fullname">Full Name</label>
+                    <div class="reg-input-wrapper">
+                        <i class="fa-regular fa-user reg-icon"></i>
+                        <input type="text" id="fullname" placeholder="Jane Doe" required>
+                    </div>
+                </div>
+
+                <!-- Email Address -->
+                <div class="reg-field-group">
+                    <label for="reg-email">Email Address</label>
+                    <div class="reg-input-wrapper">
+                        <i class="fa-regular fa-envelope reg-icon"></i>
+                        <input type="email" id="reg-email" placeholder="jane@example.com" required>
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div class="reg-field-group">
+                    <label for="reg-password">Password</label>
+                    <div class="reg-input-wrapper">
+                        <i class="fa-solid fa-lock reg-icon"></i>
+                        <input type="password" id="reg-password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="reg-field-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="reg-input-wrapper">
+                        <i class="fa-solid fa-rotate-left reg-icon"></i>
+                        <input type="password" id="confirm-password" placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <!-- Terms Checkbox -->
+                <div class="terms-group">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+                    </label>
+                </div>
+
+                <!-- Create Account Button -->
+                <button type="submit" class="btn-create-account">
+                    CREATE ACCOUNT
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="reg-divider">
+                <span>OR CONTINUE WITH</span>
+            </div>
+
+            <!-- Social Logins -->
+            <div class="social-login-grid">
+                <!-- Google Button Wrapper -->
+                <div class="social-btn-box">
+                    <div id="g_id_onload"
+                        data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                        data-callback="handleGoogleLogin">
+                    </div>
+                    <div class="g_id_signin" 
+                        data-type="standard" 
+                        data-theme="filled_black" 
+                        data-size="large"
+                        data-text="signup_with">
+                    </div>
+                </div>
+
+                <!-- GitHub Button -->
+                <button type="button" class="btn-github">
+                    <i class="fa-brands fa-github"></i> GitHub
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer Link back to Login -->
+        <div class="register-footer">
+            <span>Already have an account?</span>
+            <a href="login.html">Sign In</a>
+        </div>
+    </div>
+
+    <script src="register.js"></script>
+</body>
+</html>

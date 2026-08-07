@@ -3,58 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StretchMan - Authentication</title>
+    <title>StretchMan - Sign In</title>
     <link rel="stylesheet" href="lg2.css">
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <!-- Google Sign-In SDK -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
-<body class="auth-body">
-    <div class="auth-card">
-        <div class="auth-header">
-            <i class="fa-solid fa-cube logo-icon"></i>
-            <h2>StretchMan</h2>
-            <p>High Performance Dashboard</p>
+<body class="auth-page">
+    <div class="auth-wrapper">
+        <!-- Logo Header -->
+        <div class="brand-header">
+            <div class="lightning-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h1>StretchMan</h1>
+            <p>Command your performance.</p>
         </div>
 
-        <!-- Tab Toggle -->
-        <div class="auth-tabs">
-            <button id="tab-login" class="active" onclick="switchTab('login')">Log In</button>
-            <button id="tab-register" onclick="switchTab('register')">Register</button>
-        </div>
+        <!-- Auth Card -->
+        <div class="auth-card">
+            <form id="auth-form" onsubmit="handleAuth(event)">
+                <!-- Email Field -->
+                <div class="field-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <i class="fa-regular fa-envelope input-icon"></i>
+                        <input type="email" id="email" placeholder="agent@stretchman.com" required>
+                    </div>
+                </div>
 
-        <!-- Form Section -->
-        <form id="auth-form" onsubmit="handleAuth(event)">
-            <div class="input-group">
-                <label>Email</label>
-                <input type="email" id="email" placeholder="name@example.com" required>
+                <!-- Password Field -->
+                <div class="field-group">
+                    <div class="label-row">
+                        <label for="password">Password</label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <i class="fa-regular fa-eye-slash toggle-password" id="togglePassword" onclick="togglePasswordVisibility()"></i>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="btn-submit" class="btn-signin">
+                    <span id="btn-text">Sign In</span> <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="auth-divider">
+                <span>OR</span>
             </div>
-            
-            <div class="input-group">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="••••••••" required>
+
+            <!-- Google Login Container -->
+            <div class="google-btn-container">
+                <div id="g_id_onload"
+                    data-client_id="300181200716-ql4asoqlr5c6kr07bevq8qnnbhjqfom1.apps.googleusercontent.com"
+                    data-callback="handleGoogleLogin">
+                </div>
+                <div class="g_id_signin" 
+                    data-type="standard" 
+                    data-theme="filled_black" 
+                    data-size="large" 
+                    data-width="100%">
+                </div>
             </div>
 
-            <button type="submit" id="btn-submit" class="btn-primary">Log In</button>
-        </form>
-
-        <div class="divider">
-            <span>OR</span>
-        </div>
-
-        <!-- OAuth & Quick Register Actions Side-by-Side -->
-        <div class="oauth-container">
-            <!-- Google Login Button Container -->
-            <div id="g_id_onload"
-                data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-                data-callback="handleGoogleLogin">
+            <!-- Footer Switcher -->
+            <div class="auth-footer">
+                <span id="switch-text">Don't have an account?</span>
+                <a href="register.html" id="switch-link">Sign Up</a>
             </div>
-            <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large"></div>
-            
-            <!-- Quick Register Toggle Button -->
-            <button type="button" class="btn-secondary-outline" onclick="switchTab('register')">
-                <i class="fa-solid fa-user-plus"></i> New Account
-            </button>
         </div>
     </div>
 
