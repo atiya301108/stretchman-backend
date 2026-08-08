@@ -1,10 +1,12 @@
 const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
 
-// ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่ ถ้ามี Token ให้ข้ามไปหน้า dashboard.html
+// ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่ ถ้ามี Token ที่ถูกต้อง ให้ข้ามไปหน้า dashboard.html
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
-    if (token) {
-        window.location.href = "dashboard.html"; // ✨ เด้งไปหน้า Dashboard
+    
+    // ✨ เช็กว่ามี Token จริงๆ และต้องไม่ใช่ข้อความ "null", "undefined" หรือค่าว่าง
+    if (token && token !== "null" && token !== "undefined" && token.trim() !== "") {
+        window.location.href = "dashboard.html"; // เด้งไปหน้า Dashboard
     }
 });
 
@@ -44,7 +46,7 @@ async function handleAuth(event) {
             localStorage.setItem("user_email", email);
             if (data.full_name) localStorage.setItem("user_name", data.full_name);
             
-            // ✨ เปลี่ยนหน้าไปที่ dashboard.html เมื่อล็อกอินสำเร็จ
+            // เปลี่ยนหน้าไปที่ dashboard.html เมื่อล็อกอินสำเร็จ
             window.location.href = "dashboard.html";
         } else {
             // เด้ง Alert ข้อความแจ้งเตือนจาก Backend
@@ -74,7 +76,7 @@ async function handleGoogleLogin(response) {
             localStorage.setItem("user_email", data.email);
             if (data.full_name) localStorage.setItem("user_name", data.full_name);
             
-            // ✨ เปลี่ยนหน้าไปที่ dashboard.html เมื่อ Google Login สำเร็จ
+            // เปลี่ยนหน้าไปที่ dashboard.html เมื่อ Google Login สำเร็จ
             window.location.href = "dashboard.html";
         } else {
             alert(data.detail || "Google login failed.");
