@@ -61,6 +61,14 @@
             <header class="top-header">
                 <h1>Dashboard Overview</h1>
                 <div class="header-actions">
+                    <!-- User Display & Logout Button -->
+                    <div class="user-profile">
+                        <span id="user-display">Loading...</span>
+                        <button class="btn-logout" onclick="handleLogout()">
+                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                        </button>
+                    </div>
+
                     <button class="btn-icon"><i class="fa-solid fa-gear"></i></button>
                     <div class="user-avatar">
                         <img src="https://i.pravatar.cc/100?img=12" alt="User Avatar">
@@ -169,6 +177,8 @@
         </main>
     </div>
 
+    <!-- Scripts -->
     <script src="script.js"></script>
+    <script src="dashboard.js"></script>
 </body>
 </html>

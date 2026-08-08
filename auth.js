@@ -1,10 +1,10 @@
 const RENDER_BACKEND_URL = "https://stretchman-backend.onrender.com";
 
-// ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่ ถ้ามี Token ให้ข้ามไปหน้า index.html
+// ตรวจสอบว่าเคยเข้าสู่ระบบไว้แล้วหรือไม่ ถ้ามี Token ให้ข้ามไปหน้า dashboard.html
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("user_token");
     if (token) {
-        window.location.href = "index.html";
+        window.location.href = "dashboard.html"; // ✨ เด้งไปหน้า Dashboard
     }
 });
 
@@ -42,9 +42,12 @@ async function handleAuth(event) {
         if (response.ok && data.token) {
             localStorage.setItem("user_token", data.token);
             localStorage.setItem("user_email", email);
-            window.location.href = "index.html";
+            if (data.full_name) localStorage.setItem("user_name", data.full_name);
+            
+            // ✨ เปลี่ยนหน้าไปที่ dashboard.html เมื่อล็อกอินสำเร็จ
+            window.location.href = "dashboard.html";
         } else {
-            // เด้ง Alert ข้อความแจ้งเตือนจาก Backend (เช่น ไม่พบบัญชีนี้ในระบบ กรุณาไปสมัครสมาชิกก่อน)
+            // เด้ง Alert ข้อความแจ้งเตือนจาก Backend
             alert(data.detail || data.message || "Login failed!");
         }
     } catch (err) {
@@ -69,7 +72,10 @@ async function handleGoogleLogin(response) {
         if (res.ok && data.token) {
             localStorage.setItem("user_token", data.token);
             localStorage.setItem("user_email", data.email);
-            window.location.href = "index.html";
+            if (data.full_name) localStorage.setItem("user_name", data.full_name);
+            
+            // ✨ เปลี่ยนหน้าไปที่ dashboard.html เมื่อ Google Login สำเร็จ
+            window.location.href = "dashboard.html";
         } else {
             alert(data.detail || "Google login failed.");
         }
